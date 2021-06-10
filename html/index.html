@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="html/main.css">
+</head>
+
+<body>
+<h1>Unsupervised Event Extraction</h1>
+<p>Input (One sentence per line):</p>
+
+
+<textarea id="input" rows="5" cols="100" name='input_box'>Bob attacks Kevin.</textarea>
+
+<br>
+
+<button style="background-color: whitesmoke; height: 25px; width: 100px" onclick="predict()">Extract!</button>
+<!-- and <input type="text" id="input"></input>
+<button id="predict" onclick="predict()">Get Intention</button>
+  <select  id="sid" οnchange="selectcity()">
+           <option>-----</option>
+           <option>read papers@attend conferences@go to seminars@write a thesis</option>
+           <option>dig a hole@put some seeds@fill the soil@water the soil</option>
+           <option>make a dough@add toppings@preheat the oven@bake the dough</option>
+           <option>Fill a highball with ice@Add vodka@Add pineapple juice@Stir with a bar</option>
+</select>-->
+<p>Extracted events:</p>
+<textarea id="extractedResults" rows="5" cols="250" name='output_box'></textarea>
+
+</body>
+
+<script>
+    function predict() {
+        var input = {"text": document.getElementById("input").value};
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var response = JSON.parse(this.responseText);
+                var i = 0;
+                var verb_result = "";
+                var arg_result = "";
+                document.getElementById("extractedResults").innerHTML = JSON.stringify(response);
+            }
+            else {
+                document.getElementById("extractedResults").innerHTML = "Did not receive any response from the server! readyState is " + this.readyState.toString() + "; status is " + this.status.toString();
+                }
+        };
+
+        xhttp.open("POST", "http://dickens.seas.upenn.edu:4036/annotate/", true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(JSON.stringify(input));
+    }
+</script>
+</html>
