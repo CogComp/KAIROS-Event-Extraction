@@ -131,7 +131,7 @@ class MyWebService(object):
             event_ie_view = dict()
             event_ie_view['viewName'] = 'Event_extraction'
             event_ie_view['viewData'] = [tmp_view_data]
-
+            
             token_view = dict()
             token_view['viewName'] = 'TOKENS'
             tmp_token_view_data = dict()
@@ -190,7 +190,7 @@ if __name__ == '__main__':
     config = {
         'global': {
             'server.socket_host': 'leguin.seas.upenn.edu',
-            'server.socket_port': 4023,
+            'server.socket_port': 4040,
             'cors.expose.on': True
         },
         '/': {
