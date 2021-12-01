@@ -3,7 +3,7 @@ import cherrypy_cors
 import json
 import os
 from util import *
-
+import re
 
 # import < your_code >
 
@@ -59,6 +59,7 @@ class MyWebService(object):
         if hasJSON:
             # process input
             input_paragraph = data['text']
+            input_paragraph = re.sub(r'[\n]', '', input_paragraph)
             headers = {'Content-type': 'application/json'}
             NER_response = requests.post('http://dickens.seas.upenn.edu:4022/ner/',
                                          json={"task": "ner", "text": input_paragraph}, headers=headers)
