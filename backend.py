@@ -1,5 +1,5 @@
 import cherrypy
-import cherrypy_cors
+# import cherrypy_cors
 import json
 import os
 from util import *
