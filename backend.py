@@ -186,7 +186,7 @@ if __name__ == '__main__':
     extractor = CogcompKairosEventExtractorTest(device, 'mbert')
     # IN ORDER TO KEEP IT IN MEMORY
     print("Starting rest service...")
-    cherrypy_cors.install()
+#     cherrypy_cors.install()
     config = {
         'global': {
             'server.socket_host': 'leguin.seas.upenn.edu',
