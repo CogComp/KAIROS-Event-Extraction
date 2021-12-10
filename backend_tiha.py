@@ -148,7 +148,7 @@ class MyWebService(object):
             result = dict()
             result['corpusId'] = ''
             result['id'] = ''
-            result['text'] = data['text']
+            result['text'] = input_paragraph
             result['tokens'] = SRL_tokens
             result['sentences'] = SRL_sentences
             result['views'] = [token_view, event_ie_view]
