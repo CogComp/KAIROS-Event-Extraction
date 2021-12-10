@@ -185,6 +185,8 @@ if __name__ == '__main__':
     print('current device:', device)
 
     extractor = CogcompKairosEventExtractorTest(device, 'mbert')
+
+    MyWebService()
     # IN ORDER TO KEEP IT IN MEMORY
     # print("Starting rest service...")
 #     cherrypy_cors.install()
