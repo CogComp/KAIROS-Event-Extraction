@@ -28,49 +28,49 @@ def Get_CogComp_SRL_results(input_sentence):
 
 class MyWebService(object):
 
-    @cherrypy.expose
-    def index(self):
-        return open('html/index.html', encoding='utf-8')
+    # @cherrypy.expose
+    # def index(self):
+    #     return open('html/index.html', encoding='utf-8')
 
-    @cherrypy.expose
-    @cherrypy.tools.json_out()
-    @cherrypy.tools.json_in()
-    def info(self, **params):
-        return {"status":"online"}
+    # @cherrypy.expose
+    # @cherrypy.tools.json_out()
+    # @cherrypy.tools.json_in()
+    # def info(self, **params):
+    #     return {"status":"online"}
 
-    @cherrypy.expose
-    def halt(self, **params):
-        cherrypy.engine.exit()
+    # @cherrypy.expose
+    # def halt(self, **params):
+    #     cherrypy.engine.exit()
 
-    @cherrypy.expose
-    @cherrypy.tools.json_out()
-    @cherrypy.tools.json_in()
+    # @cherrypy.expose
+    # @cherrypy.tools.json_out()
+    # @cherrypy.tools.json_in()
     def annotate(self):
 
-        hasJSON = True
-        result = {"status": "false"}
-        try:
-            # get input JSON
-            data = cherrypy.request.json
-        except:
-            hasJSON = False
-            result = {"error": "invalid input"}
+        # hasJSON = True
+        # result = {"status": "false"}
+        # try:
+        #     # get input JSON
+        #     data = cherrypy.request.json
+        # except:
+        #     hasJSON = False
+        #     result = {"error": "invalid input"}
 
-        if hasJSON:
+        if 1==1:
             # process input
-            input_paragraph = data['text']
-            headers = {'Content-type': 'application/json'}
-            input_paragraph = re.sub(r'[\n]', ' ', input_paragraph)
-            NER_response = requests.post('http://dickens.seas.upenn.edu:4022/ner/',
-                                         json={"task": "ner", "text": input_paragraph}, headers=headers)
-            if NER_response.status_code != 200:
-                return {'error': 'The NER service is down.'}
+            input_paragraph = "A bombing at market took plac near city."
+            # headers = {'Content-type': 'application/json'}
+            # input_paragraph = re.sub(r'[\n]', ' ', input_paragraph)
+            # NER_response = requests.post('http://dickens.seas.upenn.edu:4022/ner/',
+                                        #  json={"task": "ner", "text": input_paragraph}, headers=headers)
+            # if NER_response.status_code != 200:
+                # return {'error': 'The NER service is down.'}
             # SRL_response = requests.get('http://dickens.seas.upenn.edu:4039/annotate', data=input_paragraph)
-            SRL_response = requests.post('http://dickens.seas.upenn.edu:4039/annotate',
-                                         json={'sentence': input_paragraph})
+            # SRL_response = requests.post('http://dickens.seas.upenn.edu:4039/annotate',
+                                        #  json={'sentence': input_paragraph})
 
-            if SRL_response.status_code != 200:
-                return {'error': 'The SRL service is down.'}
+            # if SRL_response.status_code != 200:
+            #     return {'error': 'The SRL service is down.'}
             SRL_tokens, SRL_sentences = Get_CogComp_SRL_results(input_paragraph)
             print(SRL_sentences['sentenceEndPositions'])
             sentences = list()
@@ -186,34 +186,34 @@ if __name__ == '__main__':
 
     extractor = CogcompKairosEventExtractorTest(device, 'mbert')
     # IN ORDER TO KEEP IT IN MEMORY
-    print("Starting rest service...")
+    # print("Starting rest service...")
 #     cherrypy_cors.install()
-    config = {
-        'global': {
-            'server.socket_host': 'leguin.seas.upenn.edu',
-            'server.socket_port': 4040,
-            'cors.expose.on': True
-        },
-        '/': {
-            'tools.sessions.on': True,
-            'cors.expose.on': True,
-            'tools.staticdir.root': os.path.abspath(os.getcwd())
+    # config = {
+    #     'global': {
+    #         'server.socket_host': 'leguin.seas.upenn.edu',
+    #         'server.socket_port': 4040,
+    #         'cors.expose.on': True
+    #     },
+    #     '/': {
+    #         'tools.sessions.on': True,
+    #         'cors.expose.on': True,
+    #         'tools.staticdir.root': os.path.abspath(os.getcwd())
 
-        },
-        '/static': {
-            'tools.staticdir.on': True,
-            'tools.staticdir.dir': './html'
-        },
-        '/html': {
-            'tools.staticdir.on': True,
-            'tools.staticdir.dir': './html',
-            'tools.staticdir.index': 'index.html',
-            'tools.gzip.on': True
-        }
-    }
-    cherrypy.config.update(config)
-    # cherrypy.config.update({'server.socket_port': 4036})
-    cherrypy.quickstart(MyWebService(), '/', config)
+    #     },
+    #     '/static': {
+    #         'tools.staticdir.on': True,
+    #         'tools.staticdir.dir': './html'
+    #     },
+    #     '/html': {
+    #         'tools.staticdir.on': True,
+    #         'tools.staticdir.dir': './html',
+    #         'tools.staticdir.index': 'index.html',
+    #         'tools.gzip.on': True
+    #     }
+    # }
+    # cherrypy.config.update(config)
+    # # cherrypy.config.update({'server.socket_port': 4036})
+    # cherrypy.quickstart(MyWebService(), '/', config)
 
 # import cherrypy
 #
