@@ -1,4 +1,4 @@
-import cherrypy
+# import cherrypy
 # import cherrypy_cors
 import json
 import os
@@ -154,7 +154,7 @@ class MyWebService(object):
             result['views'] = [token_view, event_ie_view]
 
 
-
+        print(result)
     # return resulting JSON
         return result
 
