@@ -186,7 +186,9 @@ if __name__ == '__main__':
 
     extractor = CogcompKairosEventExtractorTest(device, 'mbert')
 
-    MyWebService()
+    ob = MyWebService()
+    js = ob.annotate()
+    print(js)
     print("test")
     # IN ORDER TO KEEP IT IN MEMORY
     # print("Starting rest service...")
