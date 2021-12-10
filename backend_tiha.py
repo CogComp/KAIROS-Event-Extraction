@@ -160,7 +160,7 @@ class MyWebService(object):
 
 
 if __name__ == '__main__':
-    print("")
+    print("test")
     # INITIALIZE YOUR MODEL HERE
     parser = argparse.ArgumentParser()
     parser.add_argument("--gpu", default='1', type=str, required=False,
@@ -187,6 +187,7 @@ if __name__ == '__main__':
     extractor = CogcompKairosEventExtractorTest(device, 'mbert')
 
     MyWebService()
+    print("test")
     # IN ORDER TO KEEP IT IN MEMORY
     # print("Starting rest service...")
 #     cherrypy_cors.install()
