@@ -23,4 +23,4 @@ To run service enter `src/python backend.py`
 ## Demo
 
 
-<img src=/img/Event-Extraction-Demo.png>
+<img src=src/img/Event-Extraction-Demo.png>
