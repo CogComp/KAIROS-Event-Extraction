@@ -19,4 +19,5 @@ To run service enter `python backend.py`
 
 ## Demo
 
+
 <img src=/img/Event-Extraction-Demo.png>
