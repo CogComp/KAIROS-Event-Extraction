@@ -202,6 +202,6 @@ if __name__ == '__main__':
 
     text = "A firefighter and his crew battled to keep the raging Glass Fire from devastating an upmarket Napa Valley vineyard. The firefiighter denies lighting backfires which consume fuel in a wildfire's path but admits his team failed to advise Cal Fire, the state's fire agency that it was in the evacuated area, as required by law."
     evObj = EventExtraction()
-    evObj.annotateMain(mode = "content", content=text, filename="", input_directory="", output_directory="")
-    # evObj.annotateMain(mode = "directory", content="", filename="", input_directory="input/", output_directory="")
+    # evObj.annotateMain(mode = "content", content=text, filename="", input_directory="", output_directory="")
+    evObj.annotateMain(mode = "directory", content="", filename="", input_directory="input/", output_directory="")
     # evObj.annotateMain(args)
