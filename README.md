@@ -1,4 +1,7 @@
-# Kairos-Event-Extraction
+# Kairos Event Extraction
+
+## Description
+The zero-shot event extraction demo is used to show the effectiveness of zero-shot label-aware event trigger and argument classification model. We propose a zero-shot event extraction approach, which first identifies events with existing tools (e.g., SRL) and then maps them to a given taxonomy of event types in a zero-shot manner. Specifically, we leverage label representations induced by pre-trained language models, and map identified events to the target types via representation similarity. To semantically type the events’ arguments, we further use the definition of the events (e.g., argument of type 'Victim' appears as the argument of event of type 'Attack') as global constraints to regularize the prediction. The candidate event ontology we use for this demo is from ACE-2005.
 
 ## Environment Setup
 1. Setup the environment with the environment.yml file (`conda env create -f environment.yml`)
