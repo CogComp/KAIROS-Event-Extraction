@@ -7,8 +7,8 @@
 ### Downloads
 
 Download the following two files from server with following wget commands and put them under the `data/` folder.
-'etype_to_distinct_embeddings.json' - `wget https://www.seas.upenn.edu/~hzhangal/etype_to_distinct_embeddings.json` 
-'rtype_to_distinct_embeddings.json' - `wget https://www.seas.upenn.edu/~hzhangal/rtype_to_distinct_embeddings.json` 
+- `wget https://www.seas.upenn.edu/~hzhangal/etype_to_distinct_embeddings.json` 
+- `wget https://www.seas.upenn.edu/~hzhangal/rtype_to_distinct_embeddings.json` 
 
 ### Run
 To run service enter `python backend.py`
