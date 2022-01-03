@@ -9,12 +9,12 @@ The zero-shot event extraction demo is used to show the effectiveness of zero-sh
 
 ## Downloads
 
-Download the following two files from server with following wget commands and put them under the `data/` folder.
+Download the following two files from server with following wget commands and put them under the `src/data/` folder.
 - `wget https://www.seas.upenn.edu/~hzhangal/etype_to_distinct_embeddings.json` 
 - `wget https://www.seas.upenn.edu/~hzhangal/rtype_to_distinct_embeddings.json` 
 
 ## Run
-To run service enter `python backend.py`
+To run service enter `src/python backend.py`
 
 ## Sample Input/Output
 1. Input example: curl -d '{"sentence": "The president of the USA holds a lot of power."}' -H "Content-Type: application/json" -X POST http://localhost:20203/annotate
