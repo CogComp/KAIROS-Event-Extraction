@@ -1,7 +1,7 @@
 # Kairos-cogcomp
 
 ### Environment
-1. Setup the environment with the environment.yml file (`conda myenv create -f environment.yml`)
+1. Setup the environment with the environment.yml file (`conda env create -f environment.yml`)
 2. Downgrade the xlrd package to 1.2.0 with `pip uninstall xlrd` and then `pip install xlrd==1.2.0`
 
 ### Big files
