@@ -2,7 +2,7 @@ import json
 import os
 from util import *
 import re
-
+from datetime import datetime
 # import < your_code >
 
 
@@ -40,7 +40,7 @@ class EventExtraction(object):
         if SRL_response.status_code != 200:
             return {'error': 'The SRL service is down.'}
         SRL_tokens, SRL_sentences = Get_CogComp_SRL_results(input_paragraph)
-        print(SRL_sentences['sentenceEndPositions'])
+        # print(SRL_sentences['sentenceEndPositions'])
         sentences = list()
         sentences_by_char = list()
         for i, tmp_s_end_token in enumerate(SRL_sentences['sentenceEndPositions']):
@@ -54,7 +54,7 @@ class EventExtraction(object):
             sentences.append(' '.join(SRL_tokens[SRL_sentences['sentenceEndPositions'][-1]:]))
             sentences_by_char.append(SRL_tokens[SRL_sentences['sentenceEndPositions'][-1]:])
         # sentences = input_paragraph.split('\n')
-        print('Number of sentences:', len(sentences))
+        # print('Number of sentences:', len(sentences))
         previous_char = 0
         tmp_view_data = dict()
         tmp_view_data['viewType'] = 'edu.illinois.cs.cogcomp.core.datastructures.textannotation.PredicateArgumentView'
@@ -68,7 +68,6 @@ class EventExtraction(object):
         previous_char = 0
         for s_id, tmp_s in enumerate(sentences):
             extracted_events = extractor.extract(tmp_s)
-            print(extracted_events)
             if len(extracted_events) > 0:
                 tmp_tokens = extracted_events[0]['tokens']
             else:
@@ -126,82 +125,91 @@ class EventExtraction(object):
     # return resulting JSON
         return result
 
-    def annotateMain(self, mode = "content", content="", filename="", input_directory="", output_directory=""):
-        if mode == "content":
-            output = self.annotate(text=content)
-            print(output)
-            return output
-        elif mode == "file":
-            content = open(filename, "r").read()
-            output = self.annotate(content)
-            print(output)
-            return output
-        
-        elif mode == "directory":
-            file_list = os.listdir(input_directory)
-            for filename in file_list:
-                content = open(input_directory + "/" + filename, "r").read()
-                annJson =  self.annotate(content)
-                print("_" * 50)
-                print(filename)
-                print("_" * 50)
-                print(annJson)
-                print("_" * 50)
-
-
-    # def annotateMain(self, args):
-    #     if args.mode == "content":
-    #         output = self.annotate(sentence=args.content)
-    #         print(output)
-    #         return output
-    #     elif args.mode == "file":
-    #         content = open(args.filename, "r").read()
+    # def annotateMain(self, mode = "content", content="", filename="", input_directory="", output_directory=""):
+    #     start = datetime.now()
+    #     if mode == "content":
+    #         output = self.annotate(text=content)
+    #         # print(output)
+    #         # return output
+    #     elif mode == "file":
+    #         content = open(filename, "r").read()
     #         output = self.annotate(content)
-    #         print(output)
-    #         return output
+    #         # print(output)
+    #         # return output
         
-    #     elif args.mode == "directory":
-    #         file_list = os.listdir(args.input_directory)
+    #     elif mode == "directory":
+    #         file_list = os.listdir(input_directory)
     #         for filename in file_list:
-    #             content = open(args.input_directory + "/" + filename, "r").read()
+    #             content = open(input_directory + "/" + filename, "r").read()
     #             annJson =  self.annotate(content)
-    #             print("_" * 50)
-    #             print(filename)
-    #             print("_" * 50)
-    #             print(annJson)
-    #             print("_" * 50)
+    #     end = datetime.now()
+    #     print(end-start)
+
+    def annotateMain(self, args):
+        start = datetime.now()
+        if args.mode == "content":
+            output = self.annotate(sentence=args.content)
+            # print(output)
+            end = datetime.now()
+            print(end-start)
+            # return output
+
+        elif args.mode == "file":
+            content = open(args.filename, "r").read()
+            output = self.annotate(content)
+            # print(output)
+            end = datetime.now()
+            print(end-start)
+            # return output
+        
+        elif args.mode == "directory":
+            file_list = os.listdir(args.input_directory)
+            for filename in file_list:
+                content = open(args.input_directory + "/" + filename, "r").read()
+                annJson =  self.annotate(content)
+            end = datetime.now()
+            print(end-start)
 
 
 
 if __name__ == '__main__':
-    print("")
     # INITIALIZE YOUR MODEL HERE
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Kairos Event Extraction, annotation for Event extraction.')
+    parser.add_argument('--mode', default='content', help='mode of operation, 3 available value, content, file, directory, with content a set of sentences are processed, with file 1 single file is processed, with directory all files in directory is processed.)')
+    parser.add_argument('--content', default='', help='Text to process')
+    parser.add_argument('--filename', default='', help='name of file to be processed')
+    parser.add_argument('--input_directory', default='', help='path of input directory of files to processed')
+    parser.add_argument('--output_directory', default='', help='path of output directory to save json files')
+
     parser.add_argument("--gpu", default='1', type=str, required=False,
                         help="choose which gpu to use")
-    parser.add_argument("--representation_source", default='nyt', type=str, required=False,
-                        help="choose which gpu to use")
-    parser.add_argument("--model", default='bert-large', type=str, required=False,
-                        help="choose which gpu to use")
-    parser.add_argument("--pooling_method", default='final', type=str, required=False,
-                        help="choose which gpu to use")
-    parser.add_argument("--weight", default=100, type=float, required=False,
-                        help="weight assigned to triggers")
-    parser.add_argument("--argument_matching", default='exact', type=str, required=False,
-                        help="weight assigned to triggers")
-    parser.add_argument("--eval_model", default='joint', type=str, required=False,
-                        help="weight assigned to triggers")
+    # parser.add_argument("--representation_source", default='nyt', type=str, required=False,
+    #                     help="choose which gpu to use")
+    # parser.add_argument("--model", default='bert-large', type=str, required=False,
+    #                     help="choose which gpu to use")
+    # parser.add_argument("--pooling_method", default='final', type=str, required=False,
+    #                     help="choose which gpu to use")
+    # parser.add_argument("--weight", default=100, type=float, required=False,
+    #                     help="weight assigned to triggers")
+    # parser.add_argument("--argument_matching", default='exact', type=str, required=False,
+    #                     help="weight assigned to triggers")
+    # parser.add_argument("--eval_model", default='joint', type=str, required=False,
+    #                     help="weight assigned to triggers")
+    # parser.add_argument("--mode", type=str, required=True,
+    #                 help="enter mode")
+    # parser.add_argument("--eval_model", default='joint', type=str, required=False,
+    #                 help="weight assigned to triggers")
 
     args = parser.parse_args()
     os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print('current device:', device)
+    # print('current device:', device)
 
     extractor = CogcompKairosEventExtractorTest(device, 'mbert')
 
-    text = "A firefighter and his crew battled to keep the raging Glass Fire from devastating an upmarket Napa Valley vineyard. The firefiighter denies lighting backfires which consume fuel in a wildfire's path but admits his team failed to advise Cal Fire, the state's fire agency that it was in the evacuated area, as required by law."
+    # text = "A firefighter and his crew battled to keep the raging Glass Fire from devastating an upmarket Napa Valley vineyard. The firefiighter denies lighting backfires which consume fuel in a wildfire's path but admits his team failed to advise Cal Fire, the state's fire agency that it was in the evacuated area, as required by law."
     evObj = EventExtraction()
     # evObj.annotateMain(mode = "content", content=text, filename="", input_directory="", output_directory="")
-    evObj.annotateMain(mode = "directory", content="", filename="", input_directory="input/", output_directory="")
-    # evObj.annotateMain(args)
+    # evObj.annotateMain(mode = "directory", content="", filename="", input_directory="input/", output_directory="")
+    evObj.annotateMain(args)
