@@ -2,10 +2,10 @@
 
 ## Environment Setup
 1. Setup the environment with the environment.yml file (`conda env create -f environment.yml`)
-2. Downgrade the xlrd package to 1.2.0 with `pip uninstall xlrd` and then `pip install xlrd==1.2.0`
+2. Downgrade the `xlrd` package to 1.2.0 with `pip uninstall xlrd` and then `pip install xlrd==1.2.0`
 
 ## Downloads
-Download the following two files from server with following wget commands and put them under the `data/` folder.
+Download the following two files from server with wget commands and save them in the `data/` folder.
 - `wget https://www.seas.upenn.edu/~hzhangal/etype_to_distinct_embeddings.json` 
 - `wget https://www.seas.upenn.edu/~hzhangal/rtype_to_distinct_embeddings.json` 
 
