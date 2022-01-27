@@ -59,22 +59,31 @@ class MyWebService(object):
         if hasJSON:
             # process input
             input_paragraph = data['text']
+            
             headers = {'Content-type': 'application/json'}
-            input_paragraph = re.sub(r'[\n]', ' ', input_paragraph)
+#             input_paragraph = re.sub(r'[\n]', ' ', input_paragraph)
+            
             NER_response = requests.post('http://dickens.seas.upenn.edu:4022/ner/',
-                                         json={"task": "ner", "text": input_paragraph}, headers=headers)
+                                         json={"task": "ner", "text": "Hello world."}, headers=headers)
             if NER_response.status_code != 200:
                 return {'error': 'The NER service is down.'}
+            
             # SRL_response = requests.get('http://dickens.seas.upenn.edu:4039/annotate', data=input_paragraph)
             SRL_response = requests.post('http://dickens.seas.upenn.edu:4039/annotate',
-                                         json={'sentence': input_paragraph})
+                                         json={'sentence': "Hello world."})
 
             if SRL_response.status_code != 200:
                 return {'error': 'The SRL service is down.'}
+            
+            
             SRL_tokens, SRL_sentences = Get_CogComp_SRL_results(input_paragraph)
+            
             print(SRL_sentences['sentenceEndPositions'])
+            
+            
             sentences = list()
             sentences_by_char = list()
+            
             for i, tmp_s_end_token in enumerate(SRL_sentences['sentenceEndPositions']):
                 if i == 0:
                     sentences.append(' '.join(SRL_tokens[:tmp_s_end_token]))
@@ -85,8 +94,11 @@ class MyWebService(object):
             if SRL_sentences['sentenceEndPositions'][-1] < len(SRL_tokens):
                 sentences.append(' '.join(SRL_tokens[SRL_sentences['sentenceEndPositions'][-1]:]))
                 sentences_by_char.append(SRL_tokens[SRL_sentences['sentenceEndPositions'][-1]:])
+            
             # sentences = input_paragraph.split('\n')
+            
             print('Number of sentences:', len(sentences))
+            
             previous_char = 0
             tmp_view_data = dict()
             tmp_view_data['viewType'] = 'edu.illinois.cs.cogcomp.core.datastructures.textannotation.PredicateArgumentView'
