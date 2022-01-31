@@ -161,9 +161,13 @@ class MyWebService(object):
             result['corpusId'] = ''
             result['id'] = ''
             result['text'] = data['text']
-            result['tokens'] = SRL_tokens
-            result['sentences'] = SRL_sentences
+            #result['tokens'] = SRL_tokens
+            #result['sentences'] = SRL_sentences
             result['views'] = [token_view, event_ie_view]
+            
+            # debug on view:
+            result['tokens'] = all_tokens
+            result['sentences'] = {'generator': 'srl_pipeline', 'score': 1.0, 'sentenceEndPositions': sentence_positions}
 
 
 
