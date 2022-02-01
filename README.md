@@ -24,8 +24,10 @@ curl -d '{"sentence": "The World Health Organization on Wednesday declared the n
 <br/>
 
 ## Demo Visualization
-![image](https://user-images.githubusercontent.com/22654200/151890530-325ad0e1-2821-4c39-8f89-440a30314c2b.png)
+![image](https://user-images.githubusercontent.com/22654200/151893966-7ac5f3b0-1af3-4b1f-aad1-e2abd851ed02.png)
+
 
 ## Link to Web Demo
 https://cogcomp.seas.upenn.edu/page/demo_view/EventExtraction
+
 
