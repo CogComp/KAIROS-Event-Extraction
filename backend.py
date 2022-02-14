@@ -68,15 +68,18 @@ class MyWebService(object):
             if NER_response.status_code != 200:
                 return {'error': 'The NER service is down.'}
             
-            # SRL_response = requests.get('http://dickens.seas.upenn.edu:4039/annotate', data=input_paragraph)
-            SRL_response = requests.post('http://dickens.seas.upenn.edu:4039/annotate',
-                                         json={'sentence': "Hello world."})
+#             # SRL_response = requests.get('http://dickens.seas.upenn.edu:4039/annotate', data=input_paragraph)
+#             SRL_response = requests.post('http://dickens.seas.upenn.edu:4039/annotate',
+#                                          json={'sentence': "Hello world."})
 
-            if SRL_response.status_code != 200:
-                return {'error': 'The SRL service is down.'}
+#             if SRL_response.status_code != 200:
+#                 return {'error': 'The SRL service is down.'}
             
             
             SRL_tokens, SRL_sentences = Get_CogComp_SRL_results(input_paragraph)
+            
+            if (not SRL_tokens) or (not SRL_sentences):
+                return {'error': 'The SRL service is down.'}
             
             print(SRL_sentences['sentenceEndPositions'])
             
@@ -128,7 +131,7 @@ class MyWebService(object):
                         {'label': tmp_event['trigger']['type'], 'score': 1.0, 'start': trigger_start_token_id,
                          'end': trigger_end_token_id, 'properties': {
                             'SenseNumber': '01', 'sentence_id': s_id,
-                                                                     'predicate': tmp_tokens[
+                                                                     'predicate': SRL_tokens[
                                                                                   trigger_start_token_id:trigger_end_token_id]}})
                     for tmp_argument in tmp_event['arguments']:
                         argument_start_token_id = tmp_argument['position'][0] + previous_char
