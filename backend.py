@@ -24,7 +24,36 @@ def Get_CogComp_SRL_results(input_sentence):
     return SRL_tokens, SRL_sentences
     # print('Match tokens.')
 
+def pre_process(text):
+  add_preiod = False
+  # Step 0: standardize the encode format
+  #text = text.encode('latin-1')
+  # Step 1: remove  the  space in the beginning and end of text
+  text = text.strip()
+  
+  # Step 2: remove paragraphs separator '\n'
+  re_n = re.compile('\n')
+  text = re_n.sub(" ", text)
 
+  # Step 3: check if text is end with period (#TODO: need post-process before separating sentences)
+  if  text[-1] != '.':
+     text += '.'
+     add_preiod = 1
+  else: 
+    if text[-2] == '.':
+      text +=  ' .'
+      add_preiod = 2
+
+  # Step 4: remove comma in numerical tokens
+  while True:
+    s = re.search('\d,\d', text)
+    if s:
+      ori_token = s.group()
+      text = text.replace(ori_token, ori_token.replace(',', ''))
+    else:
+      break
+    
+  return text, add_preiod
 
 class MyWebService(object):
 
@@ -63,10 +92,10 @@ class MyWebService(object):
             headers = {'Content-type': 'application/json'}
 #             input_paragraph = re.sub(r'[\n]', ' ', input_paragraph)
             
-            NER_response = requests.post('http://dickens.seas.upenn.edu:4022/ner/',
-                                         json={"task": "ner", "text": "Hello world."}, headers=headers)
-            if NER_response.status_code != 200:
-                return {'error': 'The NER service is down.'}
+#             NER_response = requests.post('http://dickens.seas.upenn.edu:4022/ner/',
+#                                          json={"task": "ner", "text": "Hello world."}, headers=headers)
+#             if NER_response.status_code != 200:
+#                 return {'error': 'The NER service is down.'}
             
 #             # SRL_response = requests.get('http://dickens.seas.upenn.edu:4039/annotate', data=input_paragraph)
 #             SRL_response = requests.post('http://dickens.seas.upenn.edu:4039/annotate',
@@ -75,15 +104,16 @@ class MyWebService(object):
 #             if SRL_response.status_code != 200:
 #                 return {'error': 'The SRL service is down.'}
             
-            
+            input_paragraph, append_preiod = pre_process(input_paragraph)
             SRL_tokens, SRL_sentences = Get_CogComp_SRL_results(input_paragraph)
             
             if (not SRL_tokens) or (not SRL_sentences):
                 return {'error': 'The SRL service is down.'}
             
-            print(SRL_sentences['sentenceEndPositions'])
-            
-            
+            print(f"Preprocessed sentenceEndPositions: {SRL_sentences['sentenceEndPositions']}")
+            if append_preiod:
+                SRL_sentences['sentenceEndPositions'] = SRL_sentences['sentenceEndPositions'][:-1]
+            print(f"Postprocessed sentenceEndPositions: {SRL_sentences['sentenceEndPositions']}")
             sentences = list()
             sentences_by_char = list()
             
