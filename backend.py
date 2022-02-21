@@ -111,8 +111,8 @@ class MyWebService(object):
                 return {'error': 'The SRL service is down.'}
             
             print(f"Preprocessed sentenceEndPositions: {SRL_sentences['sentenceEndPositions']}")
-            if append_preiod:
-                SRL_sentences['sentenceEndPositions'] = SRL_sentences['sentenceEndPositions'][:-1]
+            if append_preiod:     
+                SRL_sentences['sentenceEndPositions'][-1] = SRL_sentences['sentenceEndPositions'][-1] - 1
             print(f"Postprocessed sentenceEndPositions: {SRL_sentences['sentenceEndPositions']}")
             sentences = list()
             sentences_by_char = list()
