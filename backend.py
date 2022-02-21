@@ -233,8 +233,8 @@ if __name__ == '__main__':
     cherrypy_cors.install()
     config = {
         'global': {
-            'server.socket_host': 'leguin.seas.upenn.edu',
-            'server.socket_port': 4023,
+            'server.socket_host': 'dickens.seas.upenn.edu',
+            'server.socket_port': 4048,
             'cors.expose.on': True
         },
         '/': {
